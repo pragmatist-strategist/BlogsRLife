@@ -2,7 +2,6 @@ package com.pranav.blogsrlife.DataHandling;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,6 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         String formattedDate = dateFormat.format(new Date(Long.valueOf(blog.getTimeID())).getTime());
 
 
-
         holder.timestamp.setText(formattedDate);
 
         imageUrl = blog.getImage();
@@ -61,7 +59,6 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
                 .into(holder.image);
 
 
-
     }
 
     @Override
@@ -69,22 +66,22 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         return blogList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public TextView desc;
-        public TextView timestamp;
-        public ImageView image;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView desc;
+        TextView timestamp;
+        ImageView image;
         String userid;
 
-        public ViewHolder(View view, Context ctx) {
+        ViewHolder(View view, Context ctx) {
             super(view);
 
             context = ctx;
 
-            title = (TextView) view.findViewById(R.id.postTitleList);
-            desc = (TextView) view.findViewById(R.id.postTextList);
-            image = (ImageView) view.findViewById(R.id.postImageList);
-            timestamp = (TextView) view.findViewById(R.id.timestampList);
+            title = view.findViewById(R.id.postTitleList);
+            desc = view.findViewById(R.id.postTextList);
+            image = view.findViewById(R.id.postImageList);
+            timestamp = view.findViewById(R.id.timestampList);
 
             userid = null;
 

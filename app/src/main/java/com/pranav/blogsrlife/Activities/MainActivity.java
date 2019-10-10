@@ -1,9 +1,9 @@
 package com.pranav.blogsrlife.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth myAuth;
     private FirebaseAuth.AuthStateListener myAuthListener;
     private FirebaseUser myUser;
-    private Button createActButton;
-    private Button loginButton;
     private EditText emailField;
     private EditText passwordField;
 
@@ -35,17 +33,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         myAuth = FirebaseAuth.getInstance();
-        createActButton =findViewById(R.id.loginCreateAccount);
+        Button createActButton = findViewById(R.id.loginCreateAccount);
 
-        loginButton =findViewById(R.id.EtloginBtn);
+        Button loginButton = findViewById(R.id.EtloginBtn);
 
         emailField = findViewById(R.id.EtloginEmail);
 
         passwordField = findViewById(R.id.EtloginPassword);
 
-        createActButton.setOnClickListener(new View.OnClickListener()
-
-        {
+        createActButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, CreateAccountActivity.class));
@@ -53,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        myAuthListener = new FirebaseAuth.AuthStateListener()
-
-        {
+        myAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 myUser = firebaseAuth.getCurrentUser();
@@ -69,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ;
-        loginButton.setOnClickListener(new View.OnClickListener()
-
-        {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(emailField.getText().toString()) && !TextUtils.isEmpty(passwordField.getText().toString())) {
@@ -79,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     String passwd = passwordField.getText().toString();
 
                     login(email, passwd);
-                } else {
                 }
             }
         });
@@ -94,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Welcome ", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, PostListActivity.class));
                             finish();
-                        } else {
-
                         }
                     }
                 });

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,33 +23,32 @@ import com.pranav.blogsrlife.R;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AddPostActivity extends AppCompatActivity {
+    private static final int GALLERY_CODE = 1;
     private ImageButton myPostImage;
     private EditText myPostTitle;
     private EditText myPostDesc;
     private StorageReference myStorage;
-    private FirebaseAuth myAuth;
-    private Button mySubmitButton;
     private DatabaseReference myPostDatabase;
     private FirebaseUser myUser;
     private ProgressDialog myProgress;
     private Uri myImageUri;
-    private static final int GALLERY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
         myProgress = new ProgressDialog(this);
-        myAuth = FirebaseAuth.getInstance();
+        FirebaseAuth myAuth = FirebaseAuth.getInstance();
         myUser = myAuth.getCurrentUser();
         myStorage = FirebaseStorage.getInstance().getReference();
         myPostDatabase = FirebaseDatabase.getInstance().getReference().child("MyBlog");
         myPostImage = findViewById(R.id.imageButton);
         myPostTitle = findViewById(R.id.EtPostTitle);
         myPostDesc = findViewById(R.id.descriptionPost);
-        mySubmitButton = findViewById(R.id.submitPost);
+        Button mySubmitButton = findViewById(R.id.submitPost);
         myPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +83,7 @@ public class AddPostActivity extends AppCompatActivity {
         final String descVal = myPostDesc.getText().toString().trim();
         if (!TextUtils.isEmpty(titleVal) && !TextUtils.isEmpty(descVal)
                 && myImageUri != null) {
-            final StorageReference filepath = myStorage.child("MyBlog_Images").child(myImageUri.getLastPathSegment());
+            final StorageReference filepath = myStorage.child("MyBlog_Images").child(Objects.requireNonNull(myImageUri.getLastPathSegment()));
             filepath.putFile(myImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -95,7 +93,7 @@ public class AddPostActivity extends AppCompatActivity {
                     Map<String, String> dataToSave = new HashMap<>();
                     dataToSave.put("title", titleVal);
                     dataToSave.put("desc", descVal);
-                    dataToSave.put("image", downloadurl.toString());
+                    dataToSave.put("image", downloadurl != null ? downloadurl.toString() : null);
                     dataToSave.put("timeId", String.valueOf(java.lang.System.currentTimeMillis()));
                     dataToSave.put("userId", myUser.getUid());
                     dataToSave.put("username", myUser.getEmail());
