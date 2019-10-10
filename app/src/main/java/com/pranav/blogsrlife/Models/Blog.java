@@ -1,11 +1,11 @@
 package com.pranav.blogsrlife.Models;
 
 public class Blog {
-    public String title;
-    public String desc;
-    public String image;
-    public String timeID;
-    public String userid;
+    private String title;
+    private String desc;
+    private String image;
+    private String timeID;
+    private String userid;
 
     public Blog(String title, String desc, String image, String timeID, String userid) {
         this.title = title;

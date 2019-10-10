@@ -23,27 +23,27 @@ import com.pranav.blogsrlife.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.Objects;
+
 public class CreateAccountActivity extends AppCompatActivity {
+    private final static int GALLERY_CODE = 1;
     private EditText firstName;
     private EditText lastName;
     private EditText email;
     private EditText password;
-    private Button createAccountBtn;
     private DatabaseReference myDatabaseReference;
-    private FirebaseDatabase myDatabase;
     private StorageReference myFirebaseStorage;
     private FirebaseAuth myAuth;
     private ProgressDialog myProgressDialog;
     private ImageButton profilePic;
     private Uri resultUri = null;
-    private final static int GALLERY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        myDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
         myDatabaseReference = myDatabase.getReference().child("MyUsers");
 
         myAuth = FirebaseAuth.getInstance();
@@ -53,13 +53,13 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         myProgressDialog = new ProgressDialog(this);
 
-        firstName =  findViewById(R.id.firstNameAct);
-        lastName =  findViewById(R.id.lastNameAct);
-        email =  findViewById(R.id.emailAct);
+        firstName = findViewById(R.id.firstNameAct);
+        lastName = findViewById(R.id.lastNameAct);
+        email = findViewById(R.id.emailAct);
         password = findViewById(R.id.passwordAct);
-        profilePic =  findViewById(R.id.profilePic);
+        profilePic = findViewById(R.id.profilePic);
 
-        createAccountBtn = (Button) findViewById(R.id.createAccountAct);
+        Button createAccountBtn = findViewById(R.id.createAccountAct);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,13 +99,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                             if (authResult != null) {
 
                                 StorageReference imagePath = myFirebaseStorage.child("MyBlog_Profile_Pics")
-                                        .child(resultUri.getLastPathSegment());
+                                        .child(Objects.requireNonNull(resultUri.getLastPathSegment()));
 
                                 imagePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                        String userid = myAuth.getCurrentUser().getUid();
+                                        String userid = Objects.requireNonNull(myAuth.getCurrentUser()).getUid();
 
                                         DatabaseReference currenUserDb = myDatabaseReference.child(userid);
                                         currenUserDb.child("firstname").setValue(name);

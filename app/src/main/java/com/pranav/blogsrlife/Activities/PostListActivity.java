@@ -31,7 +31,6 @@ public class PostListActivity extends AppCompatActivity {
     private List<Blog> blogList;
     private FirebaseUser myUser;
     private FirebaseAuth myAuth;
-    private FirebaseDatabase myDatabase;
 
 
     @Override
@@ -41,7 +40,7 @@ public class PostListActivity extends AppCompatActivity {
         myAuth = FirebaseAuth.getInstance();
         myUser = myAuth.getCurrentUser();
 
-        myDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
         myUser = myAuth.getCurrentUser();
         myDatabaseReference = myDatabase.getReference().child("MyBlog");
         myDatabaseReference.keepSynced(true);
